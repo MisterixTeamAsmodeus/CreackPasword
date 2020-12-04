@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_creackpasword" default="compile.module.creackpasword">
+  <dirname property="module.creackpasword.basedir" file="${ant.file.module_creackpasword}"/>
+  
+  <property name="module.jdk.home.creackpasword" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.creackpasword" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.creackpasword" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.creackpasword" value="-encoding UTF-8 -source 13 -target 13 ${compiler.args}"/>
+  
+  <property name="creackpasword.output.dir" value="${module.creackpasword.basedir}/out/production/CreackPasword"/>
+  <property name="creackpasword.testoutput.dir" value="${module.creackpasword.basedir}/out/test/CreackPasword"/>
+  
+  <path id="creackpasword.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="creackpasword.module.production.classpath">
+    <path refid="${module.jdk.classpath.creackpasword}"/>
+  </path>
+  
+  <path id="creackpasword.runtime.production.module.classpath">
+    <pathelement location="${creackpasword.output.dir}"/>
+  </path>
+  
+  <path id="creackpasword.module.classpath">
+    <path refid="${module.jdk.classpath.creackpasword}"/>
+    <pathelement location="${creackpasword.output.dir}"/>
+  </path>
+  
+  <path id="creackpasword.runtime.module.classpath">
+    <pathelement location="${creackpasword.testoutput.dir}"/>
+    <pathelement location="${creackpasword.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.creackpasword">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.creackpasword">
+    <patternset refid="excluded.from.module.creackpasword"/>
+  </patternset>
+  
+  <path id="creackpasword.module.sourcepath">
+    <dirset dir="${module.creackpasword.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.creackpasword" depends="compile.module.creackpasword.production,compile.module.creackpasword.tests" description="Compile module CreackPasword"/>
+  
+  <target name="compile.module.creackpasword.production" depends="register.custom.compilers" description="Compile module CreackPasword; production classes">
+    <mkdir dir="${creackpasword.output.dir}"/>
+    <javac2 destdir="${creackpasword.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.creackpasword}/javac">
+      <compilerarg line="${compiler.args.creackpasword}"/>
+      <bootclasspath refid="creackpasword.module.bootclasspath"/>
+      <classpath refid="creackpasword.module.production.classpath"/>
+      <src refid="creackpasword.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.creackpasword"/>
+    </javac2>
+    
+    <copy todir="${creackpasword.output.dir}">
+      <fileset dir="${module.creackpasword.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.creackpasword.tests" depends="register.custom.compilers,compile.module.creackpasword.production" description="compile module CreackPasword; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.creackpasword" description="cleanup module">
+    <delete dir="${creackpasword.output.dir}"/>
+    <delete dir="${creackpasword.testoutput.dir}"/>
+  </target>
+</project>
