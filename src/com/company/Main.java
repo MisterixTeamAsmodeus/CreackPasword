@@ -1,20 +1,25 @@
 package com.company;
 
-import java.util.Date;
+import java.util.ArrayList;
 
-public class Main {
+public class Main{
 
     public static void main(String[] args) {
-        final boolean[] isRun = {true};
-        SymbolPassword password = new SymbolPassword(() -> isRun[0] = false);
-        password.setPosCharPass(new String(SymbolPassword.NUMBER));
-        password.setLength(10);
-        long time = new Date().getTime();
-        while (isRun[0]) {
-            System.out.println(password.toString());
-            password.next();
+        String pass = "LoLs";
+        ArrayList<HackThread> hackThreads = new ArrayList<>();
+        HackThread.DoneInterface doneInterface = isSuccessful -> {
+            if (isSuccessful){
+                for (HackThread hackThread : hackThreads) {
+                    hackThread.disable();
+                }
+            }
+        };
+        hackThreads.add(new HackThread(pass, 3, new String(SymbolPassword.APP_CASE_SYMBOL) + new String(SymbolPassword.LOW_CASE_SYMBOL), doneInterface));
+        hackThreads.add(new HackThread(pass, 4, new String(SymbolPassword.APP_CASE_SYMBOL) + new String(SymbolPassword.LOW_CASE_SYMBOL), doneInterface));
+        hackThreads.add(new HackThread(pass, 5, new String(SymbolPassword.APP_CASE_SYMBOL) + new String(SymbolPassword.LOW_CASE_SYMBOL), doneInterface));
+        for (HackThread hackThread : hackThreads) {
+            hackThread.start();
         }
-        System.out.println(new Date().getTime() - time);
     }
 }
 
