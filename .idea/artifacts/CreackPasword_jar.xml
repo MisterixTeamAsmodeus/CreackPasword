@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CreackPasword:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CreackPasword_jar</output-path>
+    <root id="archive" name="CreackPasword.jar">
+      <element id="module-output" name="CreackPasword" />
+    </root>
+  </artifact>
+</component>
