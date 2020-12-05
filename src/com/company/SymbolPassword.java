@@ -17,7 +17,7 @@ public class SymbolPassword {
     private SymbolPassword nextSymbol = null;
     private char symbol = ' ';
     private String posCharPass = "";
-    private SymbolPasswordExitInterface exitInterface;
+    private final SymbolPasswordExitInterface exitInterface;
 
     public SymbolPassword(SymbolPasswordExitInterface exitInterface) {
         this.exitInterface = exitInterface;
