@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Date;
 
-public class HackThread implements Runnable{
+public class HackThread implements Runnable {
 
     private final String passwords;
     private final int length;
@@ -20,7 +20,7 @@ public class HackThread implements Runnable{
         password.setLength(length);
         long time = new Date().getTime();
         while (isRun[0]) {
-            if (password.toString().equals(passwords)){
+            if (password.toString().equals(passwords)) {
                 System.out.println("Password " + password.toString());
                 break;
             }
