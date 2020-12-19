@@ -17,7 +17,7 @@ public class SymbolPassword {
     private SymbolPassword nextSymbol = null;
     private char symbol = ' ';
     private String posCharPass = "";
-    private SymbolPasswordExitInterface exitInterface;
+    private final SymbolPasswordExitInterface exitInterface;
 
     public SymbolPassword(SymbolPasswordExitInterface exitInterface) {
         this.exitInterface = exitInterface;
@@ -33,7 +33,7 @@ public class SymbolPassword {
         if (indexSymbol + 1 != posCharPass.length()) {
             symbol = posCharPass.charAt(indexSymbol + 1);
         } else {
-            if (!idLastSymbol()) {
+            if (!isLastSymbol()) {
                 nextSymbol.next();
                 symbol = posCharPass.charAt(0);
             } else {
@@ -43,17 +43,18 @@ public class SymbolPassword {
     }
 
     private void addSymbol() {
-        if (idLastSymbol()) {
+        if (isLastSymbol()) {
             this.nextSymbol = new SymbolPassword(exitInterface, posCharPass);
         } else
             this.nextSymbol.addSymbol();
     }
 
-    private boolean idLastSymbol() {
+    private boolean isLastSymbol() {
         return nextSymbol == null;
     }
 
     public void setLength(int length) {
+        nextSymbol = null;
         for (int i = 0; i < length - 1; i++) {
             addSymbol();
         }
@@ -63,7 +64,7 @@ public class SymbolPassword {
         this.posCharPass = posCharPass;
         if (posCharPass.trim().length() != 0) {
             symbol = posCharPass.charAt(0);
-            if (!idLastSymbol())
+            if (!isLastSymbol())
                 this.nextSymbol.setPosCharPass(posCharPass);
         }
     }
@@ -85,29 +86,29 @@ public class SymbolPassword {
         setPosCharPass(allSymbolPass);
     }
 
-    public void setUse_SERVICE(boolean use_SERVICE) {
+    public void set_Use_SERVICE(boolean use_SERVICE) {
         this.use_SERVICE = use_SERVICE;
         setupPosCharPass();
     }
 
-    public void setUse_NUMBER(boolean use_NUMBER) {
+    public void set_Use_NUMBER(boolean use_NUMBER) {
         this.use_NUMBER = use_NUMBER;
         setupPosCharPass();
     }
 
-    public void setUse_APP_CASE_SYMBOL(boolean use_APP_CASE_SYMBOL) {
+    public void set_Use_APP_CASE_SYMBOL(boolean use_APP_CASE_SYMBOL) {
         this.use_APP_CASE_SYMBOL = use_APP_CASE_SYMBOL;
         setupPosCharPass();
     }
 
-    public void setUse_LOW_CASE_SYMBOL(boolean use_LOW_CASE_SYMBOL) {
+    public void set_Use_LOW_CASE_SYMBOL(boolean use_LOW_CASE_SYMBOL) {
         this.use_LOW_CASE_SYMBOL = use_LOW_CASE_SYMBOL;
         setupPosCharPass();
     }
 
     @Override
     public String toString() {
-        if (idLastSymbol())
+        if (isLastSymbol())
             return String.valueOf(symbol);
         else
             return nextSymbol.toString() + symbol;
